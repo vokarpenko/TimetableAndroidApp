@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StartActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Пожалуйста,выберите,как хотите продолжить"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:enabled="true"
+            android:id="@+id/button_std"
+            android:layout_width="152dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Студент"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="315dp" />
+
+        <Button
+            android:id="@+id/button_teacher"
+            android:layout_width="152dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Преподаватель"
+            tools:layout_editor_absoluteX="208dp"
+            tools:layout_editor_absoluteY="315dp" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
