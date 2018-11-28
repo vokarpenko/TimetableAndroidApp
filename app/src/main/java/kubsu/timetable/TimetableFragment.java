@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static kubsu.timetable.DaysFromJSONarray.getDayWeekNumber;
 import static kubsu.timetable.MainActivity.PREFS_FILE;
 import static kubsu.timetable.MainActivity.PREF_GROUP;
 
@@ -36,7 +38,7 @@ public class TimetableFragment extends Fragment {
             days = asyncRequest.get();
             RVAdapter adapter = new RVAdapter(days);
             rv.setAdapter(adapter);
-            //rv.smoothScrollToPosition(getDayWeekNumber()+1);
+            rv.smoothScrollToPosition(getDayWeekNumber());
         }
         catch (Exception e){
             Log.i("mytag",e.toString());

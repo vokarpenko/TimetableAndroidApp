@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity
         settings = getSharedPreferences(PREFS_FILE,MODE_PRIVATE);
         //уставнока группы
         SharedPreferences.Editor prefEditor = settings.edit();
-        prefEditor.putString(PREF_GROUP, "4kmm");
+        prefEditor.putString(PREF_GROUP, "4kpm");
         prefEditor.apply();
         //установка тулбара
         Toolbar toolbar = findViewById(R.id.toolbar);

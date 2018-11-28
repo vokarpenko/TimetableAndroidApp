@@ -6,9 +6,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.DayViewHolder>{
     public static class DayViewHolder extends RecyclerView.ViewHolder {
@@ -26,10 +30,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.DayViewHolder>{
         TextView teacher3;
         TextView teacher4;
         TextView date;
+        TextView freeDay;
 
         DayViewHolder(final View itemView) {
             super(itemView);
-
             itemView.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -50,6 +54,16 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.DayViewHolder>{
             teacher3=itemView.findViewById(R.id.teacher3);
             teacher4=itemView.findViewById(R.id.teacher4);
             date=itemView.findViewById(R.id.date);
+            /*
+                freeDay = new TextView(itemView.getContext());
+                freeDay.setText("Выходной");
+                freeDay.setTextSize(40);
+                freeDay.setLayoutParams(new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT));
+                RelativeLayout relativeLayout = itemView.findViewById(R.id.relative_layout_itemcard);
+                relativeLayout.addView(freeDay);
+            */
         }
     }
     private List<Day> days;
@@ -72,7 +86,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.DayViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull DayViewHolder dayViewHolder, int i) {
-        dayViewHolder.date.setText(days.get(i).date);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, d MMMM", new Locale("ru"));
+        Date date = new Date();
+        String currentDate = simpleDateFormat.format(date);
+        if (days.get(i).date.equals(currentDate)){
+            String now="Cегодня, "+days.get(i).date;
+            dayViewHolder.date.setText(now);
+        }
+        else {dayViewHolder.date.setText(days.get(i).date);}
         try {dayViewHolder.time1.setText(days.get(i).getTimes()[0]);} catch (Exception e){dayViewHolder.time1.setText("");}
         try {dayViewHolder.time2.setText(days.get(i).getTimes()[1]);} catch (Exception e){dayViewHolder.time2.setText("");}
         try {dayViewHolder.time3.setText(days.get(i).getTimes()[2]);} catch (Exception e){dayViewHolder.time3.setText("");}
@@ -85,10 +106,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.DayViewHolder>{
         try {dayViewHolder.teacher2.setText(days.get(i).getTeachers()[1]);} catch (Exception e){dayViewHolder.teacher2.setText("");}
         try {dayViewHolder.teacher3.setText(days.get(i).getTeachers()[2]);} catch (Exception e){dayViewHolder.teacher3.setText("");}
         try {dayViewHolder.teacher4.setText(days.get(i).getTeachers()[3]);} catch (Exception e){dayViewHolder.teacher4.setText("");}
+
     }
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
-
 }
