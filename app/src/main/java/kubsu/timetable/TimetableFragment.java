@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,11 +30,11 @@ public class TimetableFragment extends Fragment {
         rv.setLayoutManager(llm);
         settings = inflater.getContext().getSharedPreferences(PREFS_FILE,MODE_PRIVATE);
         String myGroup = settings.getString(PREF_GROUP,"");
-        AsyncRequest asyncRequest =new AsyncRequest();
-        asyncRequest.execute(myGroup);
+        AsyncRequestTimetable asyncRequestTimetable =new AsyncRequestTimetable();
+        asyncRequestTimetable.execute(myGroup);
         try{
             List<Day> days;
-            days = asyncRequest.get();
+            days = asyncRequestTimetable.get();
             RVAdapter adapter = new RVAdapter(days);
             rv.setAdapter(adapter);
             rv.smoothScrollToPosition(getDayWeekNumber());

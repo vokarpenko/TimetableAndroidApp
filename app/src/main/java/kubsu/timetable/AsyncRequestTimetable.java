@@ -8,7 +8,7 @@ import org.jsoup.Jsoup;
 import java.util.Calendar;
 import java.util.List;
 
-public class AsyncRequest extends AsyncTask<String,Void,List<Day>> {
+public class AsyncRequestTimetable extends AsyncTask<String,Void,List<Day>> {
     @Override
     protected List<Day> doInBackground(String... strings) {
         String [] stringDayArray;

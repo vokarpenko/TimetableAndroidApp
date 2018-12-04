@@ -8,7 +8,9 @@
         android:theme="@style/AppTheme"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
+
         <EditText
+
             android:id="@+id/text_familia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,6 +25,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="Имя" />
+
         <EditText
             android:id="@+id/text_otchestvo"
             android:layout_width="match_parent"
@@ -31,13 +34,23 @@
             android:inputType="textPersonName"
             android:hint="Отчество" />
 
+
+        <android.support.v7.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/text_department"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Кафедра"
+            android:inputType="textMultiLine" />
+
         <EditText
             android:id="@+id/text_phonenumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="phone"
-            android:hint="Номер телефона"/>
+            android:maxLength="12"
+            android:hint="Номер телефона"
+            android:digits="0123456789+" />
         <EditText
             android:gravity="top"
             android:id="@+id/text_wish"

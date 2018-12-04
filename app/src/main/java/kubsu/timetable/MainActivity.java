@@ -18,7 +18,7 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static final String PREFS_FILE = "Setting";
-    public static final String PREF_GROUP = "MyGroup";;
+    public static final String PREF_GROUP = "MyGroup";
     public SharedPreferences settings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity
                 setFragment(NewsFragment.class);
                 break;
             case R.id.setting_item:
-               startActivity(new Intent(this,SettingsActivity.class));
+               //startActivity(new Intent(this,SettingsActivity.class));
                 break;
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
