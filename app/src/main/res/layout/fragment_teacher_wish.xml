@@ -40,17 +40,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Кафедра"
-            android:inputType="textMultiLine" />
+            android:inputType="textAutoComplete" />
 
         <EditText
             android:id="@+id/text_phonenumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:digits="0123456789+"
             android:ems="10"
-            android:inputType="phone"
-            android:maxLength="12"
             android:hint="Номер телефона"
-            android:digits="0123456789+" />
+            android:inputType="phone"
+            android:maxLength="12" />
         <EditText
             android:gravity="top"
             android:id="@+id/text_wish"

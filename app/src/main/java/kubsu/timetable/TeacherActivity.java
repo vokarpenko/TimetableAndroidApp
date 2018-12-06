@@ -1,26 +1,22 @@
 package kubsu.timetable;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatAutoCompleteTextView;
-import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
+import android.support.v7.widget.Toolbar;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,36 +24,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.Arrays;
 
 public class TeacherActivity extends AppCompatActivity {
-    private static final int NOTIFY_ID = 101;
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+    //private static final int NOTIFY_ID = 101;
+    public static String[] listDepartment;
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
 
     @Override
@@ -78,7 +57,6 @@ public class TeacherActivity extends AppCompatActivity {
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
     }
 
     /*
@@ -106,12 +84,7 @@ public class TeacherActivity extends AppCompatActivity {
        }
         */
     public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
         private static final String ARG_SECTION_NUMBER = "section_number";
-
         public PlaceholderFragment() {
         }
 
@@ -135,17 +108,16 @@ public class TeacherActivity extends AppCompatActivity {
             switch (number){
                 case 1:
                     View rootView = inflater.inflate(R.layout.fragment_teacher_timetable, container, false);
-                    Button getNotifButton = rootView.findViewById(R.id.get_notification);
-                    getNotifButton.setOnClickListener(new View.OnClickListener() {
+                    //Button getNotifButton = rootView.findViewById(R.id.get_notification);
+                    //уведомление
+                    /*getNotifButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent notificationIntent = new Intent(getContext(), MainActivity.class);
                             PendingIntent contentIntent = PendingIntent.getActivity(getContext(),
                                     0, notificationIntent,
                                     PendingIntent.FLAG_CANCEL_CURRENT);
-
                             Resources res = getContext().getResources();
-
                             // до версии Android 8.0 API 26
                             NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(),new String());
 
@@ -165,7 +137,7 @@ public class TeacherActivity extends AppCompatActivity {
                             notificationManager.notify(NOTIFY_ID, notification);
                         }
                     });
-
+                    */
                     return rootView;
                 case 2:
                     rootView = inflater.inflate(R.layout.fragment_teacher_wish, container, false);
@@ -177,33 +149,33 @@ public class TeacherActivity extends AppCompatActivity {
                     PhoneNumberUtils.formatNumber(textPhonenumber.getText().toString());
                     final TextView textWish = rootView.findViewById(R.id.text_wish);
                     final AppCompatAutoCompleteTextView textDepartment = rootView.findViewById(R.id.text_department);//кафедра
-                    try {
-                       AsyncGetDepartment asyncGetDepartment= new AsyncGetDepartment();
-                       asyncGetDepartment.execute();
-                       String[] listDepartment = asyncGetDepartment.get();
-                        textDepartment.setAdapter(new  ArrayAdapter<>(
-                                getContext(), android.R.layout.simple_dropdown_item_1line, listDepartment));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+
+                    try{
+                        listDepartment = new AsyncGetDepartment().execute().get();
+                        textDepartment.setAdapter(new  ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, listDepartment));
+                }
+                catch (Exception e){
+                    Log.i("mytag",e.toString());
+                }
                     buttonSendWish.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (!textLastName.getText().toString().equals("")&&
-                                    !textWish.getText().toString().equals("")&&
-                                    !textName.getText().toString().equals("")&&
-                                    !textFatherName.getText().toString().equals("")&&
-                                    !textPhonenumber.getText().toString().equals("")&&
-                                    !textDepartment.getText().toString().equals(""))
-                            {
-                            String path = "http://timetable-fktpm.ru/index.php?option=mWish&lastname="+textLastName.getText()+"&firstname="+textName.getText()+
-                                    "&fathername="+textFatherName.getText()+"&phonenumber="+textPhonenumber.getText()+"&wish="+textWish.getText()+
-                                    "&department="+textDepartment.getText().toString();
-                            new AsyncPostWish().execute(path);
-                                Toast.makeText(getContext(),"Пожелания успешно отправлены",Toast.LENGTH_SHORT).show();}
-                            else {
-                                Toast.makeText(getContext(),"Заполните все поля",Toast.LENGTH_SHORT).show();
-                            }
+                            if (!textLastName.getText().toString().equals("") &&
+                                    !textWish.getText().toString().equals("") &&
+                                    !textName.getText().toString().equals("") &&
+                                    !textFatherName.getText().toString().equals("") &&
+                                    !textPhonenumber.getText().toString().equals("") &&
+                                    !textDepartment.getText().toString().equals("")) {
+                                if(Arrays.asList(listDepartment).contains(textDepartment.getText().toString())) {
+                                        String path = "http://timetable-fktpm.ru/index.php?option=mWish&lastname=" + textLastName.getText() + "&firstname=" + textName.getText() +
+                                                "&fathername=" + textFatherName.getText() + "&phonenumber=" + textPhonenumber.getText() + "&wish=" + textWish.getText() +
+                                                "&department=" + textDepartment.getText().toString();
+                                        new AsyncPostWish().execute(path);
+                                        Toast.makeText(getContext(), "Пожелания успешно отправлены", Toast.LENGTH_LONG).show();
+                                }
+                            else Toast.makeText(getContext(), "Выберите кафедру из выпадающего списка", Toast.LENGTH_LONG).show();
+                        }
+                            else Toast.makeText(getContext(),"Заполните все поля",Toast.LENGTH_LONG).show();
                         }
                     });
                     return rootView;
@@ -212,10 +184,6 @@ public class TeacherActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -234,6 +202,7 @@ public class TeacherActivity extends AppCompatActivity {
             return 2;
         }
     }
+    //отправка пожеланий преподователя
     public static class AsyncPostWish extends AsyncTask<String,Void,Void>{
         @Override
         protected Void doInBackground(String... path) {
@@ -245,6 +214,7 @@ public class TeacherActivity extends AppCompatActivity {
             return null;
         }
     }
+    //получение списка кафедр
     public static class AsyncGetDepartment extends AsyncTask<Void,Void,String[]>{
         @Override
         protected String[] doInBackground(Void... voids) {
@@ -252,16 +222,14 @@ public class TeacherActivity extends AppCompatActivity {
                 org.jsoup.nodes.Document doc = Jsoup.connect("http://timetable-fktpm.ru/index.php?option=mDepartment").get();
                 String json = doc.text();
                 JSONArray arr = new JSONArray(json);
-                String[] departments = new String[arr.length()];
+                listDepartment = new String[arr.length()];
                 for(int i = 0; i < arr.length(); i++){
-                    departments[i]=(arr.getJSONObject(i).getString("nam_kafedra"));
+                    listDepartment[i]=(arr.getJSONObject(i).getString("nam_kafedra"));
                 }
-                return departments;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            } catch (JSONException e) {
-                e.printStackTrace();
+                return listDepartment;
+            }
+            catch (Exception e){
+                Log.i("mytag",e.toString());
                 return null;
             }
         }

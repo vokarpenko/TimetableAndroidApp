@@ -80,7 +80,6 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_teacher">TeacherActivity</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-    <string name="tab_text_3">Tab 3</string>
+    <string name="gcm_default_server_key">AAAAdR30RUc:APA91bEpkli-O1OSQwqFlyGTQKZ2BXeXATq4W0UyMJK1BFn4jxw-LHveUsqGzBxKl_TitlLKThFmw_DHQRx-ZwcBrx6Q2MPTju2R6_SQlZ8CuS_a7s5DhrlZglei4t_lLXidv1tIbQtG
+    </string>
 </resources>
