@@ -8,13 +8,14 @@ import org.jsoup.Jsoup;
 import java.util.Calendar;
 import java.util.List;
 
-public class AsyncRequestTimetable extends AsyncTask<String,Void,List<Day>> {
+public class AsyncRequestTimetableStudent extends AsyncTask<String,Void,List<Day>> {
     @Override
     protected List<Day> doInBackground(String... strings) {
         String [] stringDayArray;
         String path;
-        String myGroup = strings[0];
-        //"http://timetable-fktpm.ru/index.php?option=mInfo&gruppa=4kmm&nday=1"
+        String group = strings[0];
+        String subGroup=strings[1];
+        //"http://timetable-fktpm.ru/index.php?option=mInfo&gruppa=35&subgroup=1&nday=1"
         try {
             stringDayArray = new String[14];
             Calendar now = Calendar.getInstance();
@@ -25,7 +26,8 @@ public class AsyncRequestTimetable extends AsyncTask<String,Void,List<Day>> {
             int startClassesWeek = startClasses.get(Calendar.WEEK_OF_YEAR);
             int currentWeek = now.get(Calendar.WEEK_OF_YEAR);
             int parityCurrentWeek = currentWeek-startClassesWeek;
-            path = "http://timetable-fktpm.ru/index.php?option=mInfo&gruppa="+myGroup+"&nday=";
+            Log.i("mytag",group);
+            path = "http://timetable-fktpm.ru/index.php?option=mInfo&gruppa="+group+"&subgroup="+subGroup+"&nday=";
             if (parityCurrentWeek%2==1){
                 //если числитель
                 for (int i = 1; i <=stringDayArray.length; i++) {

@@ -1,9 +1,7 @@
 package kubsu.timetable;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,15 +9,17 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -33,33 +33,35 @@ import org.jsoup.Jsoup;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class TeacherActivity extends AppCompatActivity {
-    //private static final int NOTIFY_ID = 101;
-    public static String[] listDepartment;
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+import static kubsu.timetable.StartActivity.HAS_VISITED;
+import static kubsu.timetable.StudentActivity.PREFS_FILE;
 
+public class TeacherActivity extends AppCompatActivity {
+    public static String[] listDepartment;
+    private SharedPreferences settings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        settings = getSharedPreferences(PREFS_FILE,MODE_PRIVATE);
         setContentView(R.layout.activity_teacher);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager =  findViewById(R.id.container);
+        ViewPager mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
     }
 
-    /*
+
        @Override
        public boolean onCreateOptionsMenu(Menu menu) {
            // Inflate the menu; this adds items to the action bar if it is present.
@@ -76,22 +78,24 @@ public class TeacherActivity extends AppCompatActivity {
            int id = item.getItemId();
 
            //noinspection SimplifiableIfStatement
-           if (id == R.id.action_settings) {
+           if (id == R.id.action_start_activity) {
+               settings.edit().putInt(HAS_VISITED,0).apply();
+               startActivity(new Intent(this,StartActivity.class));
+               finish();
+               return true;
+           }
+           if(id==R.id.action_change_teacher){
                return true;
            }
 
            return super.onOptionsItemSelected(item);
        }
-        */
+
     public static class PlaceholderFragment extends Fragment {
         private static final String ARG_SECTION_NUMBER = "section_number";
         public PlaceholderFragment() {
         }
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
@@ -108,36 +112,12 @@ public class TeacherActivity extends AppCompatActivity {
             switch (number){
                 case 1:
                     View rootView = inflater.inflate(R.layout.fragment_teacher_timetable, container, false);
-                    //Button getNotifButton = rootView.findViewById(R.id.get_notification);
-                    //уведомление
-                    /*getNotifButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent notificationIntent = new Intent(getContext(), MainActivity.class);
-                            PendingIntent contentIntent = PendingIntent.getActivity(getContext(),
-                                    0, notificationIntent,
-                                    PendingIntent.FLAG_CANCEL_CURRENT);
-                            Resources res = getContext().getResources();
-                            // до версии Android 8.0 API 26
-                            NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(),new String());
-
-                            builder.setContentIntent(contentIntent)
-                                    // обязательные настройки
-                                    .setSmallIcon(R.drawable.ic_info_black_24dp)
-                                    //.setContentTitle(res.getString(R.string.notifytitle)) // Заголовок уведомления
-                                    .setContentTitle("Уведомление")
-                                    //.setContentText(res.getString(R.string.notifytext))
-                                    .setContentText("Вы получили уведомление") // Текст уведомления
-                                    // необязательные настройки
-                                    .setAutoCancel(true); // автоматически закрыть уведомление после нажатия
-                            Notification notification = builder.build();
-                            //NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                            // Альтернативный вариант
-                             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
-                            notificationManager.notify(NOTIFY_ID, notification);
-                        }
-                    });
-                    */
+                    RecyclerView rv = rootView.findViewById(R.id.rv_teacher);
+                    rv.setHasFixedSize(true);
+                    LinearLayoutManager llm = new LinearLayoutManager(getContext());
+                    rv.setLayoutManager(llm);
+                    RVTeacherAdapter adapter = new RVTeacherAdapter();
+                    rv.setAdapter(adapter);
                     return rootView;
                 case 2:
                     rootView = inflater.inflate(R.layout.fragment_teacher_wish, container, false);
@@ -192,8 +172,6 @@ public class TeacherActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1);
         }
 

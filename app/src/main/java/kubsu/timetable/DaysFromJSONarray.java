@@ -6,14 +6,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 
-public class DaysFromJSONarray {
+class DaysFromJSONarray {
     private String[] stringDayArray;
 
     DaysFromJSONarray(String[] stringDayArray){
@@ -52,8 +56,38 @@ public class DaysFromJSONarray {
                 String[] times = new String[arrayLenth];
                 String[] subjects = new String[arrayLenth];
                 String[] teachers = new String[arrayLenth];
+
+                //извлечение значений для сортировки массива
+                List<JSONObject> jsonValues = new ArrayList<JSONObject>();
+                for (int z = 0; z < jsonArray.length(); z++) {
+                    jsonValues.add(jsonArray.getJSONObject(z));
+                }
+                //сортировка по возрастанию времени пары
+                Collections.sort(jsonValues, new Comparator<JSONObject>() {
+                    private static final String KEY = "num_par";
+                    @Override
+                    public int compare(JSONObject a, JSONObject b) {
+                        String valA = "";
+                        String valB = "";
+
+                        try {
+                            valA = (String) a.get(KEY);
+                            valB = (String) b.get(KEY);
+                        }
+                        catch (JSONException e) {
+                            Log.i("mytag",e.toString());
+                        }
+                        return valA.compareTo(valB);
+                    }
+                });
+                jsonArray = new JSONArray();
+                for (int z = 0; z < arrayLenth; z++) {
+                    jsonArray.put(jsonValues.get(z));
+                }
+
+                //заполнение одного дня с учетом сортировки
                 for (int j = 0; j < jsonArray.length(); j++) {
-                    JSONObject jsonObject = null;
+                    JSONObject jsonObject;
                     jsonObject = jsonArray.getJSONObject(j);
                     times[j] = getTimePar(jsonObject.getString("num_par"));
                     subjects[j] = jsonObject.getString("nam_predmet");
@@ -69,7 +103,8 @@ public class DaysFromJSONarray {
         return null;
     }
 
-    static public int getDayWeekNumber(){
+
+    static int getDayWeekNumber(){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E", new Locale("ru"));
         Date current_date = new Date();
         String string_date = simpleDateFormat.format(current_date);
@@ -134,7 +169,7 @@ public class DaysFromJSONarray {
     }
 }
 
-class Day {
+class Day implements Serializable{
    String[] times;
    String[] subjects;
    String[] teachers;
@@ -178,4 +213,14 @@ class Day {
        this.date = date;
        this.teachers=teachers;
    }
+}
+class DaySerializeble implements Serializable {
+    private List<Day> list;
+    DaySerializeble(List<Day> list){
+        this.list=list;
+    }
+
+    List<Day> getList() {
+        return list;
+    }
 }

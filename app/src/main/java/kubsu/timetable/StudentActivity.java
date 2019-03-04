@@ -14,21 +14,28 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity
+public class StudentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public static final String PREFS_FILE = "Setting";
-    public static final String PREF_GROUP = "MyGroup";
+    public static final String PREF_GROUP = "group";
+    public static final String PREF_SUBGROUP = "subGroup";
+    public static final String PREF_OLD_GROUP = "oldGroup";
+    public static final String PREF_OLD_SUBGROUP = "oldSubGroup";
     public SharedPreferences settings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         settings = getSharedPreferences(PREFS_FILE,MODE_PRIVATE);
-        //уставнока группы
-        SharedPreferences.Editor prefEditor = settings.edit();
-        prefEditor.putString(PREF_GROUP, "4kpm");
-        prefEditor.apply();
+        String group = settings.getString(PREF_GROUP,"null");
+        String subGroup = settings.getString(PREF_SUBGROUP,"null");
+        if(group.equals("null")) {
+            startActivity(new Intent(this,ChangeGroupActivity.class));
+            finish();
+        }
+            setContentView(R.layout.activity_student);
         //установка тулбара
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -37,9 +44,16 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        //уставнока группы
+        View view = navigationView.getHeaderView(0);
+        TextView headerGroup = view.findViewById(R.id.header_group);
+        String textHeader = "Группа "+group+" "+subGroup;
+        headerGroup.setText(textHeader);
+
         //Установка фрагмента расписание
         Class fragmentClass = TimetableFragment.class;
         Fragment fragment=null;
@@ -80,8 +94,15 @@ public class MainActivity extends AppCompatActivity
                 setTitle(item.getTitle());
                 setFragment(NewsFragment.class);
                 break;
-            case R.id.setting_item:
-               //startActivity(new Intent(this,SettingsActivity.class));
+            case R.id.change_group_item:
+                Intent changeGroupIntent  = new Intent(this,ChangeGroupActivity.class);
+                changeGroupIntent.putExtra("MyGroup",settings.getString(PREF_GROUP,""));
+                startActivity(changeGroupIntent);
+                break;
+            case R.id.start_activity_item:
+                settings.edit().putInt("hasVisited",0).apply();
+                startActivity(new Intent(this,StartActivity.class));
+                finish();
                 break;
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

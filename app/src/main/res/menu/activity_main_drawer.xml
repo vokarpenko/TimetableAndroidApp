@@ -6,16 +6,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/timetable_item"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_gallery"
             android:title="Расписание" />
         <item
             android:id="@+id/news_item"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_menu_slideshow"
             android:title="Новости" />
         <item
-            android:id="@+id/setting_item"
+            android:id="@+id/change_group_item"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Настройки" />
+            android:title="Сменить группу" />
+        <item
+            android:id="@+id/start_activity_item"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Изменить тип входа" />
     </group>
 
 
