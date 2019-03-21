@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class StudentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -24,6 +25,7 @@ public class StudentActivity extends AppCompatActivity
     public static final String PREF_SUBGROUP = "subGroup";
     public static final String PREF_OLD_GROUP = "oldGroup";
     public static final String PREF_OLD_SUBGROUP = "oldSubGroup";
+    public static final String PREF_TEACHER = "teacher";
     public SharedPreferences settings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +97,12 @@ public class StudentActivity extends AppCompatActivity
                 setFragment(NewsFragment.class);
                 break;
             case R.id.change_group_item:
-                Intent changeGroupIntent  = new Intent(this,ChangeGroupActivity.class);
-                changeGroupIntent.putExtra("MyGroup",settings.getString(PREF_GROUP,""));
-                startActivity(changeGroupIntent);
+                if(new Internet(getApplicationContext()).internetTrue()) {
+                    Intent changeGroupIntent = new Intent(this, ChangeGroupActivity.class);
+                    changeGroupIntent.putExtra("MyGroup", settings.getString(PREF_GROUP, ""));
+                    startActivity(changeGroupIntent);
+                }
+                else Toast.makeText(getApplicationContext(),"Нет соединения с интернетом",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.start_activity_item:
                 settings.edit().putInt("hasVisited",0).apply();

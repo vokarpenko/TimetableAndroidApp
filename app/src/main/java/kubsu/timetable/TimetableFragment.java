@@ -57,7 +57,8 @@ public class TimetableFragment extends Fragment {
         // проверка на смену группы
         String oldGroup = settings.getString(PREF_OLD_GROUP,"");
         String oldSubGroup = settings.getString(PREF_OLD_SUBGROUP,"");
-        if ((!oldGroup.equals(group)||!oldSubGroup.equals(subGroup))&&internetTrue()){
+        Internet internet = new Internet(getContext());
+        if ((!oldGroup.equals(group)||!oldSubGroup.equals(subGroup))&&internet.internetTrue()){
             AsyncRequestTimetableStudent asyncRequestTimetableStudent = new AsyncRequestTimetableStudent();
             asyncRequestTimetableStudent.execute(group,subGroup);
             try{
@@ -74,7 +75,7 @@ public class TimetableFragment extends Fragment {
         }
         else {
             days = loadTimetableCash();
-            if (days==null&&internetTrue()){
+            if (days==null&&internet.internetTrue()){
                 AsyncRequestTimetableStudent asyncRequestTimetableStudent = new AsyncRequestTimetableStudent();
                 asyncRequestTimetableStudent.execute(group,subGroup);
                 try{
@@ -85,7 +86,7 @@ public class TimetableFragment extends Fragment {
                     Log.i("mytag",e.toString());
                 }
             }
-           if (!internetTrue()) Toast.makeText(getActivity().getApplicationContext(),"Нет соединения, расписание не обновлено",Toast.LENGTH_SHORT).show();
+           if (!internet.internetTrue()) Toast.makeText(getActivity().getApplicationContext(),"Нет соединения, расписание не обновлено",Toast.LENGTH_SHORT).show();
         }
 
         RVStudentAdapter adapter = new RVStudentAdapter(days);
@@ -119,12 +120,16 @@ public class TimetableFragment extends Fragment {
         }
         return daySerializeble.getList();
     }
-
-
-    private boolean internetTrue(){
+}
+class Internet {
+    Context context;
+    Internet(Context context){
+        this.context=context;
+    }
+    boolean internetTrue() {
         boolean connected = false;
-        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             connected = true;
         }

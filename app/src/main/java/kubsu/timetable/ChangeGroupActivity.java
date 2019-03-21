@@ -10,6 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import static kubsu.timetable.StudentActivity.PREFS_FILE;
 import static kubsu.timetable.StudentActivity.PREF_GROUP;
 import static kubsu.timetable.StudentActivity.PREF_SUBGROUP;
@@ -18,9 +23,18 @@ public class ChangeGroupActivity extends AppCompatActivity {
     private Spinner courseNumber;
     private Spinner groupNumber;
     private Spinner subGroupNumber;
+    private List<AsyncRequestListGroup.Group> listGroup;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AsyncRequestListGroup asyncRequestListGroup = new AsyncRequestListGroup();
+        try {
+            listGroup = asyncRequestListGroup.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         setContentView(R.layout.activity_change_group);
         courseNumber = findViewById(R.id.course_number);
         groupNumber = findViewById(R.id.group_number);
@@ -47,7 +61,7 @@ public class ChangeGroupActivity extends AppCompatActivity {
 
 
     private  void createSpinners(){
-        String[] courseNumberString = {"1 курс","2 курс","3 курс","4 курс","1 курс маг.","2 курс маг."};
+        String[] courseNumberString = {"1","2","3","4"};
         ArrayAdapter<String> courseAdapter = new ArrayAdapter<>(this,R.layout.spinner_item,courseNumberString);
         courseNumber.setAdapter(courseAdapter);
         courseNumber.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -55,61 +69,22 @@ public class ChangeGroupActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
                     case 0:
-                        String[] groupNumberString = new String[10];
-                        for (int i = 10; i <=19 ; i++) {
-                            groupNumberString[i-10]=Integer.toString(i);
-                        }
+                        String[] groupNumberString = getStringGroupArray("1");
                         ArrayAdapter<String> groupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,groupNumberString);
                         groupNumber.setAdapter(groupAdapter);
                         break;
                     case 1:
-                        groupNumberString = new String[7];
-                        groupNumberString[0]="21";
-                        groupNumberString[1]="22";
-                        groupNumberString[2]="23";
-                        groupNumberString[3]="25";
-                        groupNumberString[4]="26";
-                        groupNumberString[5]="27";
-                        groupNumberString[6]="28";
+                        groupNumberString = getStringGroupArray("2");
                         groupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,groupNumberString);
                         groupNumber.setAdapter(groupAdapter);
                         break;
                     case 2:
-                        groupNumberString = new String[5];
-                        groupNumberString[0]="31";
-                        groupNumberString[1]="32";
-                        groupNumberString[2]="35";
-                        groupNumberString[3]="36";
-                        groupNumberString[4]="37";
+                        groupNumberString = getStringGroupArray("3");
                         groupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,groupNumberString);
                         groupNumber.setAdapter(groupAdapter);
                         break;
                     case 3:
-                        groupNumberString = new String[6];
-                        groupNumberString[0]="КПМ";
-                        groupNumberString[1]="КММ";
-                        groupNumberString[2]="КИТ";
-                        groupNumberString[3]="45";
-                        groupNumberString[4]="46";
-                        groupNumberString[5]="47";
-                        groupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,groupNumberString);
-                        groupNumber.setAdapter(groupAdapter);
-                        break;
-                    case 4:
-                        groupNumberString = new String[4];
-                        groupNumberString[0]="202";
-                        groupNumberString[1]="209";
-                        groupNumberString[2]="212";
-                        groupNumberString[3]="65";
-                        groupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,groupNumberString);
-                        groupNumber.setAdapter(groupAdapter);
-                        break;
-                    case 5:
-                        groupNumberString = new String[4];
-                        groupNumberString[0]="302";
-                        groupNumberString[1]="309";
-                        groupNumberString[2]="312";
-                        groupNumberString[3]="75";
+                        groupNumberString = getStringGroupArray("4");
                         groupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,groupNumberString);
                         groupNumber.setAdapter(groupAdapter);
                         break;
@@ -125,102 +100,44 @@ public class ChangeGroupActivity extends AppCompatActivity {
         groupNumber.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (courseNumber.getSelectedItem().toString()){
-                    case "1 курс":
-                        if (groupNumber.getSelectedItem().toString().equals("10")){
-                            String[] podgroupNumberString = {""};
-                            ArrayAdapter<String> podgroupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,podgroupNumberString);
-                            subGroupNumber.setAdapter(podgroupAdapter);
-                            subGroupNumber.setEnabled(false);
-                        }
-                        else {
-                            String[] podgroupNumberString = {"1","2"};
-                            ArrayAdapter<String> podgroupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,podgroupNumberString);
-                            subGroupNumber.setAdapter(podgroupAdapter);
-                            subGroupNumber.setEnabled(true);
-                        }
-                        break;
-                    case "2 курс":
-                        if (groupNumber.getSelectedItem().toString().equals("23")
-                                |groupNumber.getSelectedItem().toString().equals("28")){
-                            String[] podgroupNumberString = {""};
-                            ArrayAdapter<String> podgroupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,podgroupNumberString);
-                            subGroupNumber.setAdapter(podgroupAdapter);
-                            subGroupNumber.setEnabled(false);
-                        }
-                        else {
-                            String[] podgroupNumberString = {"1","2"};
-                            ArrayAdapter<String> podgroupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,podgroupNumberString);
-                            subGroupNumber.setAdapter(podgroupAdapter);
-                            subGroupNumber.setEnabled(true);
-                        }
-                        break;
-                    case "3 курс":
-                        if (groupNumber.getSelectedItem().toString().equals("31")|groupNumber.getSelectedItem().toString().equals("32")){
-                            String[] podgroupNumberString = {"КПМ","КММ","КИТ"};
-                            ArrayAdapter<String> podgroupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,podgroupNumberString);
-                            subGroupNumber.setAdapter(podgroupAdapter);
-                            subGroupNumber.setEnabled(true);
-                        }
-                        else{
-                            String[] podgroupNumberString = {"1","2"};
-                            ArrayAdapter<String> podgroupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,podgroupNumberString);
-                            subGroupNumber.setAdapter(podgroupAdapter);
-                            subGroupNumber.setEnabled(true);
-                        }
-                        break;
-                    case "4 курс":
-                        if (groupNumber.getSelectedItem().toString().equals("КПМ")
-                                |groupNumber.getSelectedItem().toString().equals("КММ")
-                                |groupNumber.getSelectedItem().toString().equals("КИТ")){
-                            String[] podgroupNumberString = {""};
-                            ArrayAdapter<String> podgroupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,podgroupNumberString);
-                            subGroupNumber.setAdapter(podgroupAdapter);
-                            subGroupNumber.setEnabled(false);
-                        }
-                        else{
-                            String[] podgroupNumberString = {"1","2"};
-                            ArrayAdapter<String> podgroupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,podgroupNumberString);
-                            subGroupNumber.setAdapter(podgroupAdapter);
-                            subGroupNumber.setEnabled(true);
-                        }
-                        break;
-                    case "1 курс маг.":
-                        if (groupNumber.getSelectedItem().toString().equals("212")){
-                            String[] podgroupNumberString = {"1","2"};
-
-                            ArrayAdapter<String> podgroupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,podgroupNumberString);
-                            subGroupNumber.setAdapter(podgroupAdapter);
-                            subGroupNumber.setEnabled(true);
-                        }
-                        else {
-                            String[] podgroupNumberString = {""};
-                            ArrayAdapter<String> podgroupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,podgroupNumberString);
-                            subGroupNumber.setAdapter(podgroupAdapter);
-                            subGroupNumber.setEnabled(false);
-                        }
-                        break;
-                    case "2 курс маг.":
-                        if (groupNumber.getSelectedItem().toString().equals("312")){
-                            String[] podgroupNumberString = {"1","2"};
-
-                            ArrayAdapter<String> podgroupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,podgroupNumberString);
-                            subGroupNumber.setAdapter(podgroupAdapter);
-                            subGroupNumber.setEnabled(true);
-                        }
-                        else {
-                            String[] podgroupNumberString = {""};
-                            ArrayAdapter<String> podgroupAdapter = new ArrayAdapter<>(getBaseContext(),R.layout.spinner_item,podgroupNumberString);
-                            subGroupNumber.setAdapter(podgroupAdapter);
-                            subGroupNumber.setEnabled(false);
-                        }
-                        break;
-                }
+                    String[] subNumberString = getStringSubArray(groupNumber.getSelectedItem().toString());
+                    if (subNumberString.length==0){
+                        subNumberString = new String[1];
+                        subNumberString[0]="";
+                        ArrayAdapter<String> podgroupAdapter = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_item, subNumberString);
+                        subGroupNumber.setAdapter(podgroupAdapter);
+                        subGroupNumber.setEnabled(false);
+                    }
+                    else {
+                        subGroupNumber.setEnabled(true);
+                        ArrayAdapter<String> podgroupAdapter = new ArrayAdapter<>(getBaseContext(), R.layout.spinner_item, subNumberString);
+                        subGroupNumber.setAdapter(podgroupAdapter);
+                    }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
     }
-
+    public String[] getStringGroupArray(String course){
+        List<String> returnList = new ArrayList<>();
+        for (int i = 0; i <listGroup.size() ; i++) {
+            if (listGroup.get(i).getCourse().equals(course)) returnList.add(listGroup.get(i).getGroup());
+        }
+        String[] returnArray = returnList.toArray(new String[0]);
+        Arrays.sort(returnArray);
+        return returnArray;
+    }
+    public String[] getStringSubArray(String group){
+        List<String> returnList = new ArrayList<>();
+        for (int i = 0; i <listGroup.size() ; i++) {
+            if (listGroup.get(i).getGroup().equals(group)) {
+                returnList = listGroup.get(i).getSubgroups();
+                break;
+            }
+        }
+        String[] returnArray = returnList.toArray(new String[0]);
+        Arrays.sort(returnArray);
+        return returnArray;
+    }
 }

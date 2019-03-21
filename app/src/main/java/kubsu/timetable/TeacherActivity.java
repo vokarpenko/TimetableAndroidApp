@@ -29,23 +29,30 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 import java.io.IOException;
 import java.util.Arrays;
 
 import static kubsu.timetable.StartActivity.HAS_VISITED;
 import static kubsu.timetable.StudentActivity.PREFS_FILE;
+import static kubsu.timetable.StudentActivity.PREF_TEACHER;
 
 public class TeacherActivity extends AppCompatActivity {
     public static String[] listDepartment;
     private SharedPreferences settings;
+    private String teacher;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         settings = getSharedPreferences(PREFS_FILE,MODE_PRIVATE);
+        teacher = settings.getString(PREF_TEACHER,"");
+
+        Log.i("mytag",teacher);
         setContentView(R.layout.activity_teacher);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle(teacher);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -85,6 +92,9 @@ public class TeacherActivity extends AppCompatActivity {
                return true;
            }
            if(id==R.id.action_change_teacher){
+               settings.edit().putString(PREF_TEACHER,"null").apply();
+               startActivity(new Intent(this,ChangeTeacherActivity.class));
+               finish();
                return true;
            }
 
@@ -132,11 +142,18 @@ public class TeacherActivity extends AppCompatActivity {
 
                     try{
                         listDepartment = new AsyncGetDepartment().execute().get();
-                        textDepartment.setAdapter(new  ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, listDepartment));
                 }
                 catch (Exception e){
                     Log.i("mytag",e.toString());
                 }
+                if (listDepartment!=null) {
+                    textDepartment.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, listDepartment));
+                }
+                else {
+                        Toast.makeText(getContext(), "Ошибка соединения с сервером", Toast.LENGTH_LONG).show();
+                        buttonSendWish.setEnabled(false);
+                    }
+
                     buttonSendWish.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -150,7 +167,12 @@ public class TeacherActivity extends AppCompatActivity {
                                         String path = "http://timetable-fktpm.ru/index.php?option=mWish&lastname=" + textLastName.getText() + "&firstname=" + textName.getText() +
                                                 "&fathername=" + textFatherName.getText() + "&phonenumber=" + textPhonenumber.getText() + "&wish=" + textWish.getText() +
                                                 "&department=" + textDepartment.getText().toString();
-                                        new AsyncPostWish().execute(path);
+                                        try {
+                                            new AsyncPostWish().execute(path);
+                                        }
+                                        catch (Exception e){
+                                            e.printStackTrace();
+                                        }
                                         Toast.makeText(getContext(), "Пожелания успешно отправлены", Toast.LENGTH_LONG).show();
                                 }
                             else Toast.makeText(getContext(), "Выберите кафедру из выпадающего списка", Toast.LENGTH_LONG).show();
@@ -185,7 +207,7 @@ public class TeacherActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(String... path) {
             try {
-                Jsoup.connect(path[0]).get();
+                Jsoup.connect(path[0]).timeout(3000).get();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -197,7 +219,7 @@ public class TeacherActivity extends AppCompatActivity {
         @Override
         protected String[] doInBackground(Void... voids) {
             try {
-                org.jsoup.nodes.Document doc = Jsoup.connect("http://timetable-fktpm.ru/index.php?option=mDepartment").get();
+                org.jsoup.nodes.Document doc = Jsoup.connect("http://timetable-fktpm.ru/index.php?option=mDepartment").timeout(2000).get();
                 String json = doc.text();
                 JSONArray arr = new JSONArray(json);
                 listDepartment = new String[arr.length()];
@@ -208,6 +230,7 @@ public class TeacherActivity extends AppCompatActivity {
             }
             catch (Exception e){
                 Log.i("mytag",e.toString());
+
                 return null;
             }
         }

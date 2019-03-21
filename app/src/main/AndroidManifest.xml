@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,13 +22,11 @@
             android:name=".StudentActivity"
             android:label="@string/app_name"
             android:screenOrientation="locked"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ChangeGroupActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="locked" />
-
         <activity
             android:theme="@style/AppTheme.Launcher"
             android:name=".StartActivity"
@@ -39,12 +36,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".TeacherActivity"
             android:label="@string/title_activity_teacher"
             android:screenOrientation="locked"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ChangeTeacherActivity"></activity>
     </application>
 
 </manifest>

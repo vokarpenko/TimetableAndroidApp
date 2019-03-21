@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import static kubsu.timetable.StudentActivity.PREFS_FILE;
+import static kubsu.timetable.StudentActivity.PREF_TEACHER;
 
 public class StartActivity extends AppCompatActivity {
     public static final String HAS_VISITED="hasVisited";
@@ -23,28 +25,40 @@ public class StartActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         //проверка на первый запуск
-        SharedPreferences sp = getSharedPreferences(PREFS_FILE,
-                Context.MODE_PRIVATE);
-        int hasVisited = sp.getInt("hasVisited", 0);
+        final SharedPreferences setting = getSharedPreferences(PREFS_FILE,Context.MODE_PRIVATE);
+        int hasVisited = setting.getInt(HAS_VISITED, 0);
         if (hasVisited==1){
             startActivity(new Intent(getBaseContext(),StudentActivity.class));
             finish();
         }
         if (hasVisited==2){
-            startActivity(new Intent(getBaseContext(),TeacherActivity.class));
-            finish();
+            Log.i("mytag",setting.getString(PREF_TEACHER,"null"));
+            if(setting.getString(PREF_TEACHER,"null").equals("null")){
+                startActivity(new Intent(getBaseContext(),ChangeTeacherActivity.class));
+                finish();
+            }
+            else {
+                startActivity(new Intent(getBaseContext(), TeacherActivity.class));
+                finish();
+            }
         }
 
         setContentView(R.layout.activity_start);
-        final SharedPreferences.Editor editor = sp.edit();
+        final SharedPreferences.Editor editor = setting.edit();
         Button buttonTeacher = findViewById(R.id.button_teacher);
         buttonTeacher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editor.putInt(HAS_VISITED, 2);
                 editor.apply();
-                startActivity(new Intent(getBaseContext(),TeacherActivity.class));
-                finish();
+                if(setting.getString(PREF_TEACHER,"null").equals("null")){
+                    startActivity(new Intent(getBaseContext(),ChangeTeacherActivity.class));
+                    finish();
+                }
+                else {
+                    startActivity(new Intent(getBaseContext(), TeacherActivity.class));
+                    finish();
+                }
             }
         });
         Button buttonStudent = findViewById(R.id.button_std);

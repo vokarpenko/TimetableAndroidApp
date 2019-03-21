@@ -60,13 +60,15 @@
             android:inputType="textMultiLine"
             android:hint="Ваши пожелания"
             />
+
         <Button
-            android:gravity="center"
-            android:layout_gravity="bottom"
             android:id="@+id/button_send_wish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Отправить"/>
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:text="Отправить"
+            android:visibility="visible" />
     </LinearLayout>
 
 </ScrollView>
