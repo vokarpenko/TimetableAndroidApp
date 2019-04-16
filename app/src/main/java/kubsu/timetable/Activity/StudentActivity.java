@@ -1,22 +1,27 @@
-package kubsu.timetable;
+package kubsu.timetable.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import kubsu.timetable.Fragment.NewsFragment;
+import kubsu.timetable.R;
+import kubsu.timetable.Fragment.TimetableFragment;
+import kubsu.timetable.Utility.Internet;
 
 public class StudentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,7 +44,7 @@ public class StudentActivity extends AppCompatActivity
         }
             setContentView(R.layout.activity_student);
         //установка тулбара
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_student);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -86,18 +91,20 @@ public class StudentActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
         switch (item.getItemId()){
             case R.id.timetable_item:
                 setFragment(TimetableFragment.class);
                 setTitle(item.getTitle());
                 break;
             case R.id.news_item:
-                setTitle(item.getTitle());
-                setFragment(NewsFragment.class);
+                if(new Internet(getApplicationContext()).isConnection()) {
+                    setTitle(item.getTitle());
+                    setFragment(NewsFragment.class);
+                }
+                else Toast.makeText(getApplicationContext(),"Нет соединения с интернетом",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.change_group_item:
-                if(new Internet(getApplicationContext()).internetTrue()) {
+                if(new Internet(getApplicationContext()).isConnection()) {
                     Intent changeGroupIntent = new Intent(this, ChangeGroupActivity.class);
                     changeGroupIntent.putExtra("MyGroup", settings.getString(PREF_GROUP, ""));
                     startActivity(changeGroupIntent);

@@ -1,4 +1,4 @@
-package kubsu.timetable;
+package kubsu.timetable.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,14 +29,16 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import static kubsu.timetable.StartActivity.HAS_VISITED;
-import static kubsu.timetable.StudentActivity.PREFS_FILE;
-import static kubsu.timetable.StudentActivity.PREF_TEACHER;
+import kubsu.timetable.R;
+import kubsu.timetable.Adapter.RVTeacherAdapter;
+
+import static kubsu.timetable.Activity.StartActivity.HAS_VISITED;
+import static kubsu.timetable.Activity.StudentActivity.PREFS_FILE;
+import static kubsu.timetable.Activity.StudentActivity.PREF_TEACHER;
 
 public class TeacherActivity extends AppCompatActivity {
     public static String[] listDepartment;
@@ -50,7 +52,7 @@ public class TeacherActivity extends AppCompatActivity {
 
         Log.i("mytag",teacher);
         setContentView(R.layout.activity_teacher);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_student);
         setSupportActionBar(toolbar);
         toolbar.setTitle(teacher);
         // Create the adapter that will return a fragment for each of the three

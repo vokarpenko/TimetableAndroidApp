@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android" 
     android:layout_height="match_parent" android:layout_width="match_parent">
     <LinearLayout
-        tools:context=".TeacherActivity$PlaceholderFragment"
+        tools:context=".Activity.TeacherActivity$PlaceholderFragment"
         android:orientation="vertical"
         android:theme="@style/AppTheme"
         android:layout_height="wrap_content"

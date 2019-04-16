@@ -1,4 +1,4 @@
-package kubsu.timetable;
+package kubsu.timetable.AsyncTask;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -7,6 +7,9 @@ import org.jsoup.Jsoup;
 
 import java.util.Calendar;
 import java.util.List;
+
+import kubsu.timetable.Model.Day;
+import kubsu.timetable.Model.ListDays;
 
 public class AsyncRequestTimetableStudent extends AsyncTask<String,Void,List<Day>> {
     @Override
@@ -21,7 +24,7 @@ public class AsyncRequestTimetableStudent extends AsyncTask<String,Void,List<Day
             Calendar now = Calendar.getInstance();
             Calendar startClasses=Calendar.getInstance();
             startClasses.set(Calendar.YEAR,2018);
-            startClasses.set(Calendar.MONTH,8);
+            startClasses.set(Calendar.MONTH,9);
             startClasses.set(Calendar.DATE,1);
             int startClassesWeek = startClasses.get(Calendar.WEEK_OF_YEAR);
             int currentWeek = now.get(Calendar.WEEK_OF_YEAR);
@@ -52,7 +55,7 @@ public class AsyncRequestTimetableStudent extends AsyncTask<String,Void,List<Day
                     stringDayArray[i-1]=stringDay;
                 }
             }
-            return new DaysFromJSONarray(stringDayArray).create();
+            return new ListDays(stringDayArray).getList();
         }
         catch (Exception e){
             Log.i("myapp",e.toString());

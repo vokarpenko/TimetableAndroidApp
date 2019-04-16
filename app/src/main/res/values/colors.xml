@@ -4,6 +4,6 @@
     <color name="colorPrimary">#1190ff</color>
     <color name="colorPrimaryDark">#3075bf</color>
     <color name="colorAccent">#fafafa</color>
-    <color name="colorBackgroundGrey">#e2e2e2</color>
-    <color name="colorWeekEnd">#dc0000</color>
+    <color name="colorBackgroundGrey">#f7f7f7</color>
+    <color name="colorWeekEnd">#48b6ff</color>
 </resources>

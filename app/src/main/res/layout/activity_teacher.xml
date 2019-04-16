@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     app:statusBarBackground="@color/colorPrimaryDark"
-    tools:context=".TeacherActivity">
+    tools:context=".Activity.TeacherActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_student"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_weight="1"

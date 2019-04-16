@@ -1,4 +1,4 @@
-package kubsu.timetable;
+package kubsu.timetable.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,38 +9,58 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import static kubsu.timetable.StudentActivity.PREFS_FILE;
-import static kubsu.timetable.StudentActivity.PREF_GROUP;
-import static kubsu.timetable.StudentActivity.PREF_SUBGROUP;
+import kubsu.timetable.AsyncTask.AsyncRequestListGroup;
+import kubsu.timetable.Model.Group;
+import kubsu.timetable.R;
+import kubsu.timetable.Utility.Internet;
+
+import static kubsu.timetable.Activity.StudentActivity.PREFS_FILE;
+import static kubsu.timetable.Activity.StudentActivity.PREF_GROUP;
+import static kubsu.timetable.Activity.StudentActivity.PREF_SUBGROUP;
 
 public class ChangeGroupActivity extends AppCompatActivity {
     private Spinner courseNumber;
     private Spinner groupNumber;
     private Spinner subGroupNumber;
-    private List<AsyncRequestListGroup.Group> listGroup;
+    private List<Group> listGroup;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AsyncRequestListGroup asyncRequestListGroup = new AsyncRequestListGroup();
-        try {
-            listGroup = asyncRequestListGroup.execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         setContentView(R.layout.activity_change_group);
         courseNumber = findViewById(R.id.course_number);
         groupNumber = findViewById(R.id.group_number);
         subGroupNumber = findViewById(R.id.podgroup_number);
-        createSpinners();
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         Button buttonChange = findViewById(R.id.button_change);
+        if (new Internet(getBaseContext()).isConnection()) {
+            AsyncRequestListGroup asyncRequestListGroup = new AsyncRequestListGroup();
+            buttonChange.setEnabled(true);
+            try {
+                listGroup = asyncRequestListGroup.execute().get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            listGroup  = new ArrayList<>();
+            Toast.makeText(getBaseContext(),"Нет интернет соединения",Toast.LENGTH_LONG).show();
+            buttonChange.setEnabled(false);
+        }
+        createSpinners();
+
         buttonChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +77,6 @@ public class ChangeGroupActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     private  void createSpinners(){
@@ -96,7 +115,6 @@ public class ChangeGroupActivity extends AppCompatActivity {
 
             }
         });
-
         groupNumber.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -119,7 +137,9 @@ public class ChangeGroupActivity extends AppCompatActivity {
             }
         });
     }
-    public String[] getStringGroupArray(String course){
+
+
+    private String[] getStringGroupArray(String course){
         List<String> returnList = new ArrayList<>();
         for (int i = 0; i <listGroup.size() ; i++) {
             if (listGroup.get(i).getCourse().equals(course)) returnList.add(listGroup.get(i).getGroup());
@@ -128,7 +148,9 @@ public class ChangeGroupActivity extends AppCompatActivity {
         Arrays.sort(returnArray);
         return returnArray;
     }
-    public String[] getStringSubArray(String group){
+
+
+    private String[] getStringSubArray(String group){
         List<String> returnList = new ArrayList<>();
         for (int i = 0; i <listGroup.size() ; i++) {
             if (listGroup.get(i).getGroup().equals(group)) {

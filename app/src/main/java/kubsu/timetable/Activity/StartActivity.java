@@ -1,4 +1,4 @@
-package kubsu.timetable;
+package kubsu.timetable.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +15,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import static kubsu.timetable.StudentActivity.PREFS_FILE;
-import static kubsu.timetable.StudentActivity.PREF_TEACHER;
+import kubsu.timetable.R;
+
+import static kubsu.timetable.Activity.StudentActivity.PREFS_FILE;
+import static kubsu.timetable.Activity.StudentActivity.PREF_TEACHER;
 
 public class StartActivity extends AppCompatActivity {
     public static final String HAS_VISITED="hasVisited";
@@ -72,9 +74,6 @@ public class StartActivity extends AppCompatActivity {
             }
         });
         setHelloImageAndText();
-        //buttonTeacher.performClick();
-        //Intent i = new Intent(this, RegistrationService.class);
-        //startService(i);
     }
     private void setHelloImageAndText(){
         TextView textHello = findViewById(R.id.text_hello);

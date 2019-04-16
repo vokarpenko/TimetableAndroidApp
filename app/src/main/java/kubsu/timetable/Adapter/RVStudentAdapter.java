@@ -1,27 +1,34 @@
-package kubsu.timetable;
+package kubsu.timetable.Adapter;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import kubsu.timetable.Model.Day;
+import kubsu.timetable.R;
+import kubsu.timetable.Utility.L;
+
 public class RVStudentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private List<Day> days;
 
-    RVStudentAdapter(List<Day> days){
+    public RVStudentAdapter(List<Day> days){
         this.days = days;
     }
 
     static class DayViewHolder extends RecyclerView.ViewHolder {
-        CardView cv;
         TextView time1;
         TextView time2;
         TextView time3;
@@ -35,11 +42,10 @@ public class RVStudentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView teacher3;
         TextView teacher4;
         TextView date;
-        RelativeLayout itemCardLayout;
-
+        RelativeLayout line1;
+        CardView itemCardLayout;
         DayViewHolder(final View itemView) {
             super(itemView);
-            cv = itemView.findViewById(R.id.cv);
             time1 = itemView.findViewById(R.id.time1);
             time2 = itemView.findViewById(R.id.time2);
             time3 = itemView.findViewById(R.id.time3);
@@ -53,15 +59,24 @@ public class RVStudentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             teacher3 = itemView.findViewById(R.id.teacher3);
             teacher4 = itemView.findViewById(R.id.teacher4);
             date = itemView.findViewById(R.id.date);
-            itemCardLayout = itemView.findViewById(R.id.relative_layout_itemcard);
+            itemCardLayout = itemView.findViewById(R.id.item_cardview_timetable);
+            line1 = itemView.findViewById(R.id.line1);
+            line1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    L.log(line1.getChildCount());
+                }
+            });
         }
     }
 
     static class FreeDayViewHolder extends RecyclerView.ViewHolder{
         TextView date;
+        CardView itemCardLayout;
         FreeDayViewHolder(final View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.free_date);
+            itemCardLayout = itemView.findViewById(R.id.item_cardview_freeday);
         }
     }
 
@@ -84,17 +99,20 @@ public class RVStudentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, d MMMM", new Locale("ru"));
         Date date = new Date();
         String currentDate = simpleDateFormat.format(date);
 
         switch (viewHolder.getItemViewType()) {
             case 1:
+
                 DayViewHolder dayViewHolder = (DayViewHolder) viewHolder;
-                if (days.get(i).date.equals(currentDate)) {
-                    String now = "Cегодня, " + days.get(i).date;
+                YoYo.with(Techniques.FadeIn).playOn(dayViewHolder.itemCardLayout);
+                if (days.get(i).getDate().equals(currentDate)) {
+                    String now = "Cегодня, " + days.get(i).getDate();
                     dayViewHolder.date.setText(now);
-                } else dayViewHolder.date.setText(days.get(i).date);
+                } else dayViewHolder.date.setText(days.get(i).getDate());
                 try {
                     dayViewHolder.time1.setText(days.get(i).getTimes()[0]);
                 } catch (Exception e) {
@@ -158,10 +176,11 @@ public class RVStudentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 break;
             case 0:
                 FreeDayViewHolder freeDayViewHolder = (FreeDayViewHolder) viewHolder;
-                if (days.get(i).date.equals(currentDate)) {
-                    String now = "Cегодня, " + days.get(i).date;
+                YoYo.with(Techniques.FadeIn).playOn(freeDayViewHolder.itemCardLayout);
+                if (days.get(i).getDate().equals(currentDate)) {
+                    String now = "Cегодня, " + days.get(i).getDate();
                     freeDayViewHolder.date.setText(now);
-                } else freeDayViewHolder.date.setText(days.get(i).date);
+                } else freeDayViewHolder.date.setText(days.get(i).getDate());
                 break;
         }
     }

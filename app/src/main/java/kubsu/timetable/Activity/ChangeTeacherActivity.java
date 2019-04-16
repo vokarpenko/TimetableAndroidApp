@@ -1,4 +1,4 @@
-package kubsu.timetable;
+package kubsu.timetable.Activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,8 +13,10 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 
-import static kubsu.timetable.StudentActivity.PREFS_FILE;
-import static kubsu.timetable.StudentActivity.PREF_TEACHER;
+import kubsu.timetable.R;
+
+import static kubsu.timetable.Activity.StudentActivity.PREFS_FILE;
+import static kubsu.timetable.Activity.StudentActivity.PREF_TEACHER;
 
 public class ChangeTeacherActivity extends AppCompatActivity {
     @Override

@@ -1,4 +1,4 @@
-package kubsu.timetable;
+package kubsu.timetable.Model;
 
 import android.util.Log;
 
@@ -14,15 +14,26 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
 
-class DaysFromJSONarray {
-    private String[] stringDayArray;
+import kubsu.timetable.Model.Day;
+import kubsu.timetable.Utility.CurrentDayWeek;
 
-    DaysFromJSONarray(String[] stringDayArray){
-        this.stringDayArray=stringDayArray;
+public class ListDays implements Serializable {
+    private List<Day> list;
+
+    public ListDays(List<Day> list) {
+        this.list = list;
     }
+
+    public ListDays(String[] stringArrayDays) {
+        createFromStringArrayDays(stringArrayDays);
+    }
+
+    public List<Day> getList() {
+        return list;
+    }
+
 
     private String getTimePar(String num_par){
         switch (num_par){
@@ -46,12 +57,12 @@ class DaysFromJSONarray {
         }
     }
 
-    List<Day> create(){
+    private void createFromStringArrayDays(String[] stringArrayDays){
         try {
             List<Day> days=new ArrayList<>();
             String[] dateArray = getDateArray();
-            for (int i = 0; i < stringDayArray.length; i++) {
-                JSONArray jsonArray = new JSONArray(stringDayArray[i]);
+            for (int i = 0; i < stringArrayDays.length; i++) {
+                JSONArray jsonArray = new JSONArray(stringArrayDays[i]);
                 int arrayLenth = jsonArray.length();
                 String[] times = new String[arrayLenth];
                 String[] subjects = new String[arrayLenth];
@@ -95,52 +106,19 @@ class DaysFromJSONarray {
                 }
                 days.add(new Day(times, subjects, teachers, dateArray[i]));
             }
-            return days;
+            this.list = days;
         }
         catch (JSONException e) {
             Log.i("mytag", "unexpected JSON exception", e);
         }
-        return null;
     }
 
 
-    static int getDayWeekNumber(){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E", new Locale("ru"));
-        Date current_date = new Date();
-        String string_date = simpleDateFormat.format(current_date);
-        int day_number;
-        switch (string_date) {
-            case "пн":
-                day_number = 0;
-                break;
-            case "вт":
-                day_number = 1;
-                break;
-            case "ср":
-                day_number = 2;
-                break;
-            case "чт":
-                day_number = 3;
-                break;
-            case "пт":
-                day_number = 4;
-                break;
-            case "сб":
-                day_number = 5;
-                break;
-            case "вс":
-                day_number = 6;
-                break;
-            default:
-                day_number = -1;
-                break;
-        }
-        return day_number;
-    }
+
 
     private String[] getDateArray() {
         String[] date_array = new String[14];
-        int day_week_number = getDayWeekNumber();
+        int day_week_number = new CurrentDayWeek().getCurrentNumberDayWeek();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, d MMMM", new Locale("ru"));
         Date date = new Date();
         Date newDate;
@@ -160,7 +138,7 @@ class DaysFromJSONarray {
         }
         return date_array;
     }
-    private static Date addDays(Date date, int days)
+    private Date addDays(Date date, int days)
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -169,58 +147,4 @@ class DaysFromJSONarray {
     }
 }
 
-class Day implements Serializable{
-   String[] times;
-   String[] subjects;
-   String[] teachers;
-   String date;
 
-    public String[] getTimes() {
-        return times;
-    }
-
-    public void setTimes(String[] times) {
-        this.times = times;
-    }
-
-    public String[] getSubjects() {
-        return subjects;
-    }
-
-    public void setSubjects(String[] subjects) {
-        this.subjects = subjects;
-    }
-
-    public String[] getTeachers() {
-        return teachers;
-    }
-
-    public void setTeachers(String[] teachers) {
-        this.teachers = teachers;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    Day(String[] times, String[] subjects, String[] teachers, String date) {
-       this.times = times;
-       this.subjects = subjects;
-       this.date = date;
-       this.teachers=teachers;
-   }
-}
-class DaySerializeble implements Serializable {
-    private List<Day> list;
-    DaySerializeble(List<Day> list){
-        this.list=list;
-    }
-
-    List<Day> getList() {
-        return list;
-    }
-}

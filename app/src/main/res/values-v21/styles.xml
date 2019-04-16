@@ -11,5 +11,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/grid_detail_transition
+        </item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/grid_detail_transition
+        </item>
     </style>
 </resources>
