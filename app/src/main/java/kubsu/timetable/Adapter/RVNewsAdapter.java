@@ -27,7 +27,7 @@ import static kubsu.timetable.Activity.DetailNewsActivity.VIEW_NAME_HEADER_IMAGE
 
 public class RVNewsAdapter extends RecyclerView.Adapter<RVNewsAdapter.NewsViewHolder> {
 
-    private ArrayList<ItemNew>feedItems;
+    private ArrayList<ItemNew> feedItems;
 
     public RVNewsAdapter(ArrayList<ItemNew> feedItems){
         this.feedItems=feedItems;

@@ -7,11 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Transition;
-import android.transition.TransitionManager;
-import android.transition.TransitionValues;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +20,6 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 
 import kubsu.timetable.R;
-import kubsu.timetable.Utility.L;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -104,6 +99,7 @@ public class DetailNewsActivity extends AppCompatActivity {
 
     private void setToolbar(){
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar_news);
+        toolbar.setTitle("Новости");
         setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
