@@ -33,12 +33,14 @@ import org.jsoup.Jsoup;
 import java.io.IOException;
 import java.util.Arrays;
 
-import kubsu.timetable.R;
 import kubsu.timetable.Adapter.RVTeacherAdapter;
+import kubsu.timetable.News.NewsAdapter;
+import kubsu.timetable.R;
+import kubsu.timetable.Start.StartActivity;
 
-import static kubsu.timetable.Activity.StartActivity.HAS_VISITED;
-import static kubsu.timetable.Activity.StudentActivity.PREFS_FILE;
-import static kubsu.timetable.Activity.StudentActivity.PREF_TEACHER;
+import static kubsu.timetable.Start.StartActivity.HAS_VISITED;
+import static kubsu.timetable.Utility.Constant.PREF_FILE;
+import static kubsu.timetable.Utility.Constant.PREF_TEACHER;
 
 public class TeacherActivity extends AppCompatActivity {
     public static String[] listDepartment;
@@ -47,12 +49,12 @@ public class TeacherActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        settings = getSharedPreferences(PREFS_FILE,MODE_PRIVATE);
+        settings = getSharedPreferences(PREF_FILE,MODE_PRIVATE);
         teacher = settings.getString(PREF_TEACHER,"");
 
         Log.i("mytag",teacher);
         setContentView(R.layout.activity_teacher);
-        Toolbar toolbar = findViewById(R.id.toolbar_student);
+        Toolbar toolbar = findViewById(R.id.toolbar_teacher);
         setSupportActionBar(toolbar);
         toolbar.setTitle(teacher);
         // Create the adapter that will return a fragment for each of the three
@@ -81,21 +83,10 @@ public class TeacherActivity extends AppCompatActivity {
 
        @Override
        public boolean onOptionsItemSelected(MenuItem item) {
-           // Handle action bar item clicks here. The action bar will
-           // automatically handle clicks on the Home/Up button, so long
-           // as you specify a parent activity in AndroidManifest.xml.
            int id = item.getItemId();
-
-           //noinspection SimplifiableIfStatement
            if (id == R.id.action_start_activity) {
                settings.edit().putInt(HAS_VISITED,0).apply();
                startActivity(new Intent(this,StartActivity.class));
-               finish();
-               return true;
-           }
-           if(id==R.id.action_change_teacher){
-               settings.edit().putString(PREF_TEACHER,"null").apply();
-               startActivity(new Intent(this,ChangeTeacherActivity.class));
                finish();
                return true;
            }
@@ -104,7 +95,9 @@ public class TeacherActivity extends AppCompatActivity {
        }
 
     public static class PlaceholderFragment extends Fragment {
+
         private static final String ARG_SECTION_NUMBER = "section_number";
+
         public PlaceholderFragment() {
         }
 
@@ -124,12 +117,12 @@ public class TeacherActivity extends AppCompatActivity {
             switch (number){
                 case 1:
                     View rootView = inflater.inflate(R.layout.fragment_teacher_timetable, container, false);
-                    RecyclerView rv = rootView.findViewById(R.id.rv_teacher);
-                    rv.setHasFixedSize(true);
-                    LinearLayoutManager llm = new LinearLayoutManager(getContext());
-                    rv.setLayoutManager(llm);
+                    RecyclerView recyclerView = rootView.findViewById(R.id.rv_teacher);
+                    recyclerView.setHasFixedSize(true);
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(linearLayoutManager);
                     RVTeacherAdapter adapter = new RVTeacherAdapter();
-                    rv.setAdapter(adapter);
+                    recyclerView.setAdapter(adapter);
                     return rootView;
                 case 2:
                     rootView = inflater.inflate(R.layout.fragment_teacher_wish, container, false);
@@ -183,6 +176,14 @@ public class TeacherActivity extends AppCompatActivity {
                         }
                     });
                     return rootView;
+                case 3:
+                    rootView = inflater.inflate(R.layout.fragment_news, container, false);
+                    /*recyclerView = rootView.findViewById(R.id.rv_news);
+                    linearLayoutManager = new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(linearLayoutManager);
+                    NewsAdapter newsAdapter = new newsAdapter();
+                    recyclerView.setAdapter(newsAdapter);*/
+                    return rootView;
                     default:return null;
             }
         }
@@ -201,7 +202,7 @@ public class TeacherActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     }
     //отправка пожеланий преподователя

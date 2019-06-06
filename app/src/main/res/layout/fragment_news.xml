@@ -1,53 +1,60 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
-    android:layout_width="match_parent"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    tools:context=".Activity.TeacherActivity$PlaceholderFragment"
-    android:animateLayoutChanges="true">
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_container_news">
+    <android.support.constraint.ConstraintLayout
 
-    <Button
-        android:visibility="gone"
-        android:layout_marginTop="4dp"
-        android:layout_height="35dp"
-        android:layout_width="90dp"
-        android:id="@+id/button_return_to_top"
-        android:textAllCaps="false"
-        android:textSize="13sp"
-        android:text="Наверх"
-        android:background="@drawable/button_round_corners"
-        android:textColor="@android:color/white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Activity.TeacherActivity$PlaceholderFragment"
+        android:animateLayoutChanges="true">
 
-  <android.support.v7.widget.RecyclerView
-      android:id="@+id/rv_news"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:scrollbars="vertical"
-      />
+        <Button
+            android:visibility="invisible"
+            android:layout_marginTop="4dp"
+            android:layout_height="35dp"
+            android:layout_width="90dp"
+            android:id="@+id/button_return_to_top"
+            android:textAllCaps="false"
+            android:textSize="13sp"
+            android:text="@string/go_top_button_text"
+            android:background="@drawable/button_round_corners"
+            android:textColor="@android:color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    <ProgressBar
-        android:indeterminateTintMode="src_in"
-        android:indeterminateTint="@color/colorPrimary"
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_news"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            />
 
-    <ProgressBar
-        android:indeterminateTintMode="src_in"
-        android:indeterminateTint="@color/colorPrimary"
-        android:id="@+id/progress_bar_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-</android.support.constraint.ConstraintLayout>
+        <ProgressBar
+            android:indeterminateTintMode="src_in"
+            android:indeterminateTint="@color/colorPrimary"
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ProgressBar
+            android:indeterminateTintMode="src_in"
+            android:indeterminateTint="@color/colorPrimary"
+            android:id="@+id/progress_bar_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>
+

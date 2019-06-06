@@ -42,6 +42,7 @@
                     android:id="@+id/separator0"
                     />
                 <TextView
+                    android:paddingStart="3dp"
                     android:id="@+id/time1"
                     style="@style/AppTheme.TextStyle"
                     android:gravity="center_vertical"
@@ -87,6 +88,7 @@
                     android:id="@+id/separator1"
                 />
             <TextView
+                android:paddingStart="3dp"
                 android:gravity="center_vertical"
                 android:id="@+id/time2"
                 style="@style/AppTheme.TextStyle"
@@ -130,6 +132,7 @@
                     android:id="@+id/separator2"
                     />
                 <TextView
+                    android:paddingStart="3dp"
                     android:gravity="center_vertical"
                     android:id="@+id/time3"
                     style="@style/AppTheme.TextStyle"
@@ -173,6 +176,7 @@
                     android:id="@+id/separator3"
                     />
                 <TextView
+                    android:paddingStart="3dp"
                     android:gravity="center_vertical"
                     android:id="@+id/time4"
                     style="@style/AppTheme.TextStyle"

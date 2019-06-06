@@ -26,13 +26,13 @@ public class RVTeacherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         //switch (viewType) {
             /*case 0:
                 v = LayoutInflater.from(viewType.getContext()).inflate(R.layout.item_card_freeday, viewType, false);
-                return new RVStudentAdapter.FreeDayViewHolder(v);
+                return new StudentTimetableAdapter.FreeDayViewHolder(v);
                 */
             //case 1:
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_card_teacher, viewGroup, false);
                 return new DayViewHolder(v);
             //default:
-               // return new RVStudentAdapter.FreeDayViewHolder(null);
+               // return new StudentTimetableAdapter.FreeDayViewHolder(null);
         //}
     }
 

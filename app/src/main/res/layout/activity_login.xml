@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:background="@color/colorPrimary"
+    android:scrollbars="none"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/login_layout"
+    android:layout_height="match_parent"
+    tools:context=".Login.LoginActivity">
+<android.support.v7.widget.LinearLayoutCompat
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+
+    <android.support.constraint.ConstraintLayout
+        android:theme="@style/registration_edit_text_theme"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp">
+
+
+        <ImageView
+            android:id="@+id/image_login"
+            android:layout_width="108dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/ic_launcher_round"/>
+
+        <android.support.design.widget.TextInputLayout
+            app:boxBackgroundColor="@color/colorAccent"
+            android:textColorHint="@color/colorWhiteLight"
+            android:textColor="@color/colorWhiteLight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/input_email_layout"
+            app:layout_constraintTop_toBottomOf="@+id/image_login"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="30dp">
+            <EditText
+                android:textColor="@color/colorWhiteLight"
+                android:id="@+id/input_login_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/login_activity_login_text"
+                android:inputType="text"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:textColor="@color/colorWhiteLight"
+            android:textColorHint="@color/colorWhiteLight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/input_password_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/input_email_layout"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="16dp">
+            <EditText
+                android:textColor="@color/colorWhiteLight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/input_password_login"
+                android:ems="10"
+                android:hint="Пароль"
+                android:inputType="textPassword"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:layout_marginTop="12dp"
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="Войти"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/remember_me" />
+
+        <CheckedTextView
+            android:id="@+id/remember_me"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:gravity="center"
+            android:text="Запомнить меня"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorWhiteLight"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/input_password_layout" />
+
+        <TextView
+            android:layout_marginTop="12dp"
+            android:id="@+id/link_registration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:text="Нет аккаунта? Зарегистрируйтесь "
+            android:textColor="@color/colorWhiteLight"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_button" />
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.LinearLayoutCompat>
+
+
+</ScrollView>

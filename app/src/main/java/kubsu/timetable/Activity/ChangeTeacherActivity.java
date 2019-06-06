@@ -15,14 +15,15 @@ import java.util.Arrays;
 
 import kubsu.timetable.R;
 
-import static kubsu.timetable.Activity.StudentActivity.PREFS_FILE;
-import static kubsu.timetable.Activity.StudentActivity.PREF_TEACHER;
+import static kubsu.timetable.Utility.Constant.PREF_FILE;
+import static kubsu.timetable.Utility.Constant.PREF_TEACHER;
+
 
 public class ChangeTeacherActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final SharedPreferences settings = getSharedPreferences(PREFS_FILE, MODE_PRIVATE);
+        final SharedPreferences settings = getSharedPreferences(PREF_FILE, MODE_PRIVATE);
         setContentView(R.layout.activity_change_teacher);
         final AppCompatAutoCompleteTextView teacherNameTextView = findViewById(R.id.techer_name_text_view);
         final String[] listTeachers = {"Малыхин К.В.","Уварова А.В."};

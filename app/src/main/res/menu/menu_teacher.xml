@@ -3,11 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="kubsu.timetable.Activity.TeacherActivity">
     <item
-        android:id="@+id/action_change_teacher"
-        android:orderInCategory="1"
-        android:title="@string/action_change_teacher"
-        app:showAsAction="never"/>
-    <item
         android:id="@+id/action_start_activity"
         android:orderInCategory="2"
         android:title="@string/action_start_activity"

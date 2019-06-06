@@ -8,10 +8,8 @@ import org.jsoup.Jsoup;
 import java.util.Calendar;
 import java.util.List;
 
-import kubsu.timetable.Model.Day;
-import kubsu.timetable.Model.ListDays;
 
-public class AsyncRequestTimetableStudent extends AsyncTask<String,Void,List<Day>> {
+/*public class AsyncRequestTimetableStudent extends AsyncTask<String,Void,List<Day>> {
     @Override
     protected List<Day> doInBackground(String... strings) {
         String [] stringDayArray;
@@ -63,4 +61,4 @@ public class AsyncRequestTimetableStudent extends AsyncTask<String,Void,List<Day
         return null;
     }
 
-}
+}*/

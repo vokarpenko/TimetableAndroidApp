@@ -5,8 +5,7 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_change_teacher">Другой преподаватель</string>
-    <string name="action_start_activity">Изменить тип входа</string>
+    <string name="action_start_activity">Выйти из аккаунта</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
@@ -81,4 +80,6 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_teacher">TeacherActivity</string>
+    <string name="login_activity_login_text">Логин</string>
+    <string name="go_top_button_text">Наверх</string>
 </resources>
