@@ -9,15 +9,11 @@
     android:layout_width="match_parent"
     android:id="@+id/login_layout"
     android:layout_height="match_parent"
-    tools:context=".Login.LoginActivity">
+    tools:context=".login.LoginActivity">
 <android.support.v7.widget.LinearLayoutCompat
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-
-
-
     <android.support.constraint.ConstraintLayout
         android:theme="@style/registration_edit_text_theme"
         android:layout_width="match_parent"
@@ -105,7 +101,6 @@
             android:checkMark="?android:attr/listChoiceIndicatorMultiple"
             android:gravity="center"
             android:text="Запомнить меня"
-            android:textAlignment="textEnd"
             android:textColor="@color/colorWhiteLight"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"

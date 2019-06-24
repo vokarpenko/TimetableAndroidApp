@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    app:statusBarBackground="@color/colorPrimaryDark"
-    tools:context=".Activity.TeacherActivity">
+    app:statusBarBackground="@color/colorPrimary"
+    tools:context=".teacher.TeacherActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -28,32 +28,32 @@
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
+            android:id="@+id/teacher_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TabItem
-                android:id="@+id/tabItem"
+                android:id="@+id/tab_item_timetable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Расписание" />
 
             <android.support.design.widget.TabItem
-                android:id="@+id/tabItem2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Пожелания" />
-            <android.support.design.widget.TabItem
-                android:id="@+id/tabItem3"
+                android:id="@+id/tab_item_news"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Новости" />
+            <android.support.design.widget.TabItem
+                android:id="@+id/tab_item_wishes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Пожелания" />
 
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/container"
+        android:id="@+id/teacher_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

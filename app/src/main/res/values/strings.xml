@@ -82,4 +82,9 @@
     <string name="title_activity_teacher">TeacherActivity</string>
     <string name="login_activity_login_text">Логин</string>
     <string name="go_top_button_text">Наверх</string>
+    <string name="student_button_text">Студент</string>
+    <string name="teacher_button_text">Преподаватель</string>
+    <string name="notes_hint">Здесь еще нет заметок,вы можете добавить первую</string>
+    <string name="email_confirm_text">На указанный email отправлено письмо с подтверждением, если письмо не пришло проверьте папку спам.</string>
+    <string name="activity_after_register_button_login_text">Войти</string>
 </resources>

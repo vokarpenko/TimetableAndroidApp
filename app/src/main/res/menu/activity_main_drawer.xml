@@ -5,19 +5,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/timetable_item"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_event_note_black_24dp"
             android:title="Расписание" />
         <item
             android:id="@+id/news_item"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_fiber_new_black_24dp"
             android:title="Новости" />
         <item
             android:id="@+id/change_group_item"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_settings_black_24dp"
             android:title="Сменить группу" />
         <item
             android:id="@+id/start_activity_item"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_power_settings_new_black_24dp"
             android:title="Выйти из аккаунта" />
     </group>
 </menu>

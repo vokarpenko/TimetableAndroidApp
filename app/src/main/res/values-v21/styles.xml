@@ -18,5 +18,6 @@
         <item name="android:windowSharedElementExitTransition">
             @transition/grid_detail_transition
         </item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
     </style>
 </resources>

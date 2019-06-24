@@ -9,9 +9,8 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Activity.TeacherActivity$PlaceholderFragment"
+        tools:context=".teacher.TeacherActivity$PlaceholderFragment"
         android:animateLayoutChanges="true">
-
         <Button
             android:visibility="invisible"
             android:layout_marginTop="4dp"
@@ -26,7 +25,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_news"
             android:layout_width="match_parent"
@@ -35,22 +33,24 @@
             />
 
         <ProgressBar
-            android:indeterminateTintMode="src_in"
-            android:indeterminateTint="@color/colorPrimary"
+            android:padding="5dp"
             android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:indeterminateTint="@color/colorPrimary"
+            android:indeterminateTintMode="src_in"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
+            android:padding="5dp"
             android:indeterminateTintMode="src_in"
             android:indeterminateTint="@color/colorPrimary"
             android:id="@+id/progress_bar_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

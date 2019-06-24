@@ -9,7 +9,9 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
-
+        android:foreground="?android:attr/selectableItemBackground"
+        android:focusable="true"
+        android:clickable="true"
         android:id="@+id/item_cardview_freeday"
         android:layout_width="match_parent"
         android:layout_height="330dp"
