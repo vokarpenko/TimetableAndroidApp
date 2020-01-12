@@ -21,7 +21,7 @@ public class Constant {
     public static final String PREF_USER_STATUS = "user_status";
 
     //URL
-    public static final String BASE_URL = "http://yii.timetable-fktpm.ru";
+    public static final String BASE_URL = "http://timetable-fktpm.ru";
     public static final String GET_ALL_CLASSES_URL ="/admins/tpara/get-all";
     public static final String REGISTER_URL ="/site/signup-mobile";
     public static final String LOGIN_URL = "/rest/login";
